@@ -86,6 +86,13 @@ fun CampingItem(camping: Camping) {
         }
     }
 }
+@Preview(showBackground = true)
+@Composable
+fun CampingPreview(){
+    CampingsCVTheme() {
+        CampingsScreen()
+    }
+}
 fun readJsonFromRaw(context: Context, resourceId: Int): String {
     val inputStream = context.resources.openRawResource(resourceId)
     return inputStream.bufferedReader().use { it.readText() }
