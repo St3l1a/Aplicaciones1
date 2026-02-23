@@ -97,32 +97,33 @@ fun readJsonFromRaw(context: Context, resourceId: Int): String {
     val inputStream = context.resources.openRawResource(resourceId)
     return inputStream.bufferedReader().use { it.readText() }
 }
- fun getData(context: Context): List<Camping> {
+fun getData(context: Context): List<Camping> {
 
     val listaCampings = mutableListOf<Camping>()
     val rawResourceId = R.raw.datos
 
     val jsonFileContent = readJsonFromRaw(context, rawResourceId)
 
-    val jsonObject = JSONObject(jsonFileContent)
+    val rootObject = JSONObject(jsonFileContent)
 
-    // Get records array
-    val jsonArray = JSONArray(jsonFileContent)
+    val resultObject = rootObject.getJSONObject("result")
+
+    val jsonArray = resultObject.getJSONArray("records")
 
     for (i in 0 until jsonArray.length()) {
 
         val campingObject = jsonArray.getJSONObject(i)
 
-        val nombre = campingObject.optString("NOMBRE", "No disponible")
-        val municipio = campingObject.optString("MUNICIPIO", "No disponible")
-        val provincia = campingObject.optString("PROVINCIA", "No disponible")
-        val categoria = campingObject.optString("CATEGORIA","No disponible")
-        val direccion = campingObject.optString("DIRECCION", "No disponible")
-        val telefono = campingObject.optString("TELEFONO", "No disponible")
+        val nombre = campingObject.optString("Nombre", "No disponible")
+        val municipio = campingObject.optString("Municipio", "No disponible")
+        val provincia = campingObject.optString("Provincia", "No disponible")
+        val categoria = campingObject.optString("Categoria","No disponible")
+        val direccion = campingObject.optString("Direccion", "No disponible")
+        val telefono = campingObject.optString("Telefono", "No disponible")
 
-
-
-        listaCampings.add(Camping(nombre, municipio, provincia, categoria, direccion, telefono))
+        listaCampings.add(
+            Camping(nombre, municipio, provincia, categoria, direccion, telefono)
+        )
     }
 
     return listaCampings
